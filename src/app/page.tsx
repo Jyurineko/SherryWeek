@@ -3,7 +3,7 @@ import Image from "next/image";
 import { Metadata } from "next";
 import { getAllPosts, getAllCategories, getAllTags } from "@/lib/mock-data";
 import { WebSiteJsonLd } from "@/components/json-ld";
-import { CardHover, FadeIn, ScrollReveal } from "@/components/animations";
+import { FadeIn, ScrollReveal } from "@/components/animations";
 import { AuthorCard } from "@/components/author-card";
 
 export const metadata: Metadata = {

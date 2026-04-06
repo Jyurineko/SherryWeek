@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:news="http://www.google.com/schemas/sitemap-news/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:mobile="http://www.google.com/schemas/sitemap-mobile/1.0" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">
+<url><loc>https://example.com/</loc><lastmod>2026-04-06T13:06:06.405Z</lastmod><changefreq>daily</changefreq><priority>1</priority></url>
+<url><loc>https://example.com/about/</loc><lastmod>2026-04-06T13:06:06.406Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://example.com/categories/backend/</loc><lastmod>2026-04-06T13:06:06.406Z</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+<url><loc>https://example.com/categories/devops/</loc><lastmod>2026-04-06T13:06:06.406Z</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+<url><loc>https://example.com/categories/frontend/</loc><lastmod>2026-04-06T13:06:06.406Z</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+<url><loc>https://example.com/categories/life/</loc><lastmod>2026-04-06T13:06:06.406Z</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+<url><loc>https://example.com/demo/</loc><lastmod>2026-04-06T13:06:06.406Z</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+<url><loc>https://example.com/posts/docker-deployment-guide/</loc><lastmod>2026-04-06T13:06:06.406Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://example.com/posts/frontend-trends-2024/</loc><lastmod>2026-04-06T13:06:06.406Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://example.com/posts/nextjs-14-app-router-features/</loc><lastmod>2026-04-06T13:06:06.406Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://example.com/posts/nodejs-performance-best-practices/</loc><lastmod>2026-04-06T13:06:06.406Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://example.com/posts/tailwind-css-tips-tricks/</loc><lastmod>2026-04-06T13:06:06.406Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://example.com/posts/typescript-advanced-types/</loc><lastmod>2026-04-06T13:06:06.406Z</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+<url><loc>https://example.com/tags/best-practices/</loc><lastmod>2026-04-06T13:06:06.406Z</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+<url><loc>https://example.com/tags/docker/</loc><lastmod>2026-04-06T13:06:06.406Z</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+<url><loc>https://example.com/tags/nextjs/</loc><lastmod>2026-04-06T13:06:06.406Z</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+<url><loc>https://example.com/tags/nodejs/</loc><lastmod>2026-04-06T13:06:06.406Z</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+<url><loc>https://example.com/tags/performance/</loc><lastmod>2026-04-06T13:06:06.406Z</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+<url><loc>https://example.com/tags/react/</loc><lastmod>2026-04-06T13:06:06.406Z</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+<url><loc>https://example.com/tags/tailwind-css/</loc><lastmod>2026-04-06T13:06:06.406Z</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+<url><loc>https://example.com/tags/typescript/</loc><lastmod>2026-04-06T13:06:06.406Z</lastmod><changefreq>weekly</changefreq><priority>0.6</priority></url>
+</urlset>

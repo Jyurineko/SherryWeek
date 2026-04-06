@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cyberlilith Blog
 
-## Getting Started
+基于 Next.js 16 + Tailwind CSS 4 + TypeScript 构建的现代化个人博客。
 
-First, run the development server:
+## ✨ 特性
+
+- **⚡ Next.js 16** - App Router, 静态导出 (SSG)
+- **🎨 Tailwind CSS** - 原子化 CSS, 响应式设计
+- **🌓 暗黑模式** - next-themes, 支持亮/暗/系统主题
+- **🔍 SEO 优化** - 动态 Metadata, Schema.org, Sitemap, robots.txt
+- **📝 Markdown** - 完整 MD 语法支持, 代码高亮, 自动生成目录
+- **🎭 动画效果** - Lottie 动画 + CSS 过渡效果
+- **📱 响应式** - 2-8-2 三栏布局, 移动端适配
+
+## 🚀 快速开始
 
 ```bash
+cd frontend
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+访问 http://localhost:3000
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 📁 项目结构
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+frontend/
+├── src/app/          # 页面 (App Router)
+│   ├── page.tsx      # 首页 (置顶 + 最新文章)
+│   ├── posts/        # 文章详情
+│   ├── categories/   # 分类筛选
+│   ├── tags/         # 标签筛选
+│   └── about/        # 关于页面
+├── src/components/   # 组件
+├── src/lib/          # 工具函数 & Mock 数据
+└── public/           # 静态资源
+```
 
-## Learn More
+## 🛠 技术栈
 
-To learn more about Next.js, take a look at the following resources:
+| 类别 | 技术 |
+|------|------|
+| 框架 | Next.js 16 (App Router) |
+| 语言 | TypeScript |
+| 样式 | Tailwind CSS |
+| 主题 | next-themes |
+| MD 渲染 | react-markdown + remark-gfm |
+| 代码高亮 | rehype-highlight |
+| SEO | next-sitemap, schema-dts |
+| 动画 | lottie-react |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 📝 页面路由
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+| 页面 | 路径 | 说明 |
+|------|------|------|
+| 首页 | `/` | 置顶文章 + 6篇最新文章 |
+| 文章详情 | `/posts/[slug]/` | Markdown + 目录 + 分享 |
+| 分类 | `/categories/[slug]/` | 按分类筛选 |
+| 标签 | `/tags/[slug]/` | 按标签筛选 |
+| 关于 | `/about/` | 关于页面 |
 
-## Deploy on Vercel
+## ⚙️ 环境变量
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+复制 `.env.example` 为 `.env.local`:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```bash
+NEXT_PUBLIC_SITE_URL=https://your-domain.com
+```
+
+## 📦 部署到 Vercel
+
+1. Push 代码到 GitHub
+2. 在 [Vercel](https://vercel.com) 导入项目
+3. 设置环境变量
+4. 自动部署
+
+## 📄 License
+
+MIT License

@@ -1,13 +1,13 @@
+"use client";
+
 import Link from "next/link";
 import Image from "next/image";
-import { Metadata } from "next";
+import { zhCN } from "date-fns/locale";
 import { getAllPosts } from "@/lib/mock-data";
 import { CardHover } from "@/components/animations";
-
-export const metadata: Metadata = {
-  title: "卡片样式对比 Demo",
-  description: "新旧文章卡片样式对比",
-};
+import { MiniCalendar } from "@/components/mini-calendar";
+import { Calendar } from "@/components/ui/calendar";
+import { WeatherCard } from "@/components/weather-card";
 
 export default function DemoPage() {
   const posts = getAllPosts();
@@ -34,7 +34,7 @@ export default function DemoPage() {
               <div className="flex flex-col h-full p-3">
                 {/* 图片 */}
                 <div className="relative w-full p-1 mb-3">
-                  <div className="relative w-full aspect-[3/2] rounded-lg overflow-hidden shadow-xl">
+                  <div className="relative w-full aspect-3/2 rounded-lg overflow-hidden shadow-xl">
                     <Image
                       src={demoPost.coverImage || "/placeholder.svg"}
                       alt={demoPost.title}
@@ -57,7 +57,7 @@ export default function DemoPage() {
                   </div>
 
                   {/* 标题 */}
-                  <h3 className="text-base font-semibold mb-1.5 line-clamp-2 min-h-[2.5rem] leading-tight">
+                  <h3 className="text-base font-semibold mb-1.5 line-clamp-2 min-h-10 leading-tight">
                     {demoPost.title}
                   </h3>
 
@@ -117,7 +117,7 @@ export default function DemoPage() {
               <div className="flex items-center justify-between">
                 {/* 作者信息 */}
                 <div className="flex items-center gap-2">
-                  <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                  <div className="w-8 h-8 bg-linear-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white text-xs font-bold">
                     J
                   </div>
                   <span className="text-sm text-gray-600 dark:text-muted-foreground font-medium">
@@ -160,7 +160,7 @@ export default function DemoPage() {
           >
             {/* 图片区域 - 带圆角和边距 */}
             <div className="relative w-full p-3">
-              <div className="relative w-full aspect-[3/2] rounded-lg overflow-hidden shadow-xl will-change-transform">
+              <div className="relative w-full aspect-3/2 rounded-lg overflow-hidden shadow-xl will-change-transform">
                 <Image
                   src={demoPost.coverImage || "/placeholder.svg"}
                   alt={demoPost.title}
@@ -196,7 +196,7 @@ export default function DemoPage() {
               <div className="-mx-5 -mb-5 px-5 py-4 bg-gray-50 dark:bg-muted/50 border-t border-gray-100 dark:border-border">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
-                    <div className="w-7 h-7 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                    <div className="w-7 h-7 bg-linear-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white text-xs font-bold">
                       J
                     </div>
                     <span className="text-xs text-gray-600 dark:text-muted-foreground font-medium">
@@ -224,6 +224,90 @@ export default function DemoPage() {
               </div>
             </div>
           </Link>
+        </div>
+      </section>
+
+      {/* 天气组件测试 */}
+      <section>
+        <h2 className="text-xl font-semibold mb-6 text-cyan-600">天气组件测试</h2>
+        <div className="max-w-sm">
+          <WeatherCard />
+        </div>
+        <p className="mt-4 text-sm text-muted-foreground max-w-2xl">
+          天气卡片组件包含：当前城市、天气现象、温度、风向风力、湿度、发布时间，
+          以及未来3天预报（当天、明天、后天）。
+        </p>
+      </section>
+
+      {/* 日历组件测试 */}
+      <section>
+        <h2 className="text-xl font-semibold mb-6 text-purple-600">日历组件对比测试</h2>
+
+        {/* 两列对比 - 模拟首页右侧边栏宽度 */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl">
+
+          {/* 原始版本 - 有问题 */}
+          <div>
+            <h3 className="text-sm font-medium mb-3 text-red-600 flex items-center gap-2">
+              <span className="w-2 h-2 bg-red-500 rounded-full"></span>
+              原始版本（有跨月日期，周日开始）
+            </h3>
+            <div className="group bg-white dark:bg-card rounded-2xl shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-border overflow-hidden">
+              <h3 className="font-semibold py-4 px-5 border-b border-gray-100 dark:border-border text-gray-900 dark:text-foreground flex items-center gap-2 text-sm">
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                日历
+              </h3>
+              <div className="p-3">
+                <Calendar
+                  mode="single"
+                  selected={new Date()}
+                  locale={zhCN}
+                  captionLayout="dropdown"
+                  className="rounded-lg border"
+                />
+              </div>
+              <div className="py-3 px-5 bg-gray-50 dark:bg-muted/50 border-t border-gray-100 dark:border-border text-xs text-muted-foreground text-center">
+                点击日期查看当日文章
+              </div>
+            </div>
+            <p className="mt-2 text-xs text-red-600">问题：显示3月30-31日，周日开始</p>
+          </div>
+
+          {/* 修复版本 */}
+          <div>
+            <h3 className="text-sm font-medium mb-3 text-green-600 flex items-center gap-2">
+              <span className="w-2 h-2 bg-green-500 rounded-full"></span>
+              修复版本（无跨月日期，周一开始）
+            </h3>
+            <MiniCalendar />
+            <p className="mt-2 text-xs text-green-600">
+              修复：weekStartsOn=1 + showOutsideDays=false + captionLayout=dropdown
+            </p>
+          </div>
+
+        </div>
+
+        {/* 说明 */}
+        <div className="mt-8 bg-gray-50 dark:bg-muted/50 rounded-2xl p-6 border border-gray-100 dark:border-border max-w-4xl">
+          <h3 className="font-semibold mb-4">测试验证要点</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-muted-foreground">
+            <div>
+              <h4 className="font-medium text-foreground mb-2">原始版本问题：</h4>
+              <ul className="space-y-1 text-xs">
+                <li>• 4月第一行显示 30 31 1 2 3 4 5（包含3月30-31日）</li>
+                <li>• 星期行从"日"（周日）开始</li>
+              </ul>
+            </div>
+            <div>
+              <h4 className="font-medium text-foreground mb-2">修复版本正确：</h4>
+              <ul className="space-y-1 text-xs">
+                <li>• 4月第一行显示 空 空 1 2 3 4 5（不显示3月日期）</li>
+                <li>• 星期行从"一"（周一）开始</li>
+              </ul>
+            </div>
+          </div>
         </div>
       </section>
 

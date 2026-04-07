@@ -1,5 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { ClientLayout } from "./client-layout";
+import { ThemeProvider } from "@/components/theme-provider";
+import "./globals.css";
 
 export const viewport: Viewport = {
   width: "device-width",
@@ -57,5 +59,20 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  return <ClientLayout>{children}</ClientLayout>;
+  return (
+    <html lang="zh-CN" suppressHydrationWarning>
+      <body className="antialiased min-h-screen flex flex-col">
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange={false}
+        >
+          <ClientLayout>
+            {children}
+          </ClientLayout>
+        </ThemeProvider>
+      </body>
+    </html>
+  );
 }

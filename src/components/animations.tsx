@@ -227,11 +227,22 @@ export function ScrollReveal({
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    const checkVisibility = () => {
+      if (!ref.current) return;
+      const rect = ref.current.getBoundingClientRect();
+      const isInViewport = rect.top < window.innerHeight && rect.bottom > 0;
+      if (isInViewport) {
+        setIsVisible(true);
+      }
+    };
+
+    // 立即检查一次（处理返回页面时元素已在视口内的情况）
+    checkVisibility();
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
           setIsVisible(true);
-          observer.disconnect();
         }
       },
       { threshold }
@@ -241,7 +252,18 @@ export function ScrollReveal({
       observer.observe(ref.current);
     }
 
-    return () => observer.disconnect();
+    // 监听页面可见性变化（处理返回页面时）
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        checkVisibility();
+      }
+    };
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+
+    return () => {
+      observer.disconnect();
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
   }, [threshold]);
 
   return (

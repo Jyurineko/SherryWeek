@@ -44,6 +44,12 @@ const config: Config = {
           foreground: "var(--card-foreground)",
         },
         border: "var(--border)",
+        // 自定义深色背景
+        dark: {
+          bg: "#1C1C1C",
+          card: "#252525",
+          elevated: "#2D2D2D",
+        },
       },
       typography: {
         DEFAULT: {

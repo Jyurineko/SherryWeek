@@ -5,6 +5,9 @@ import { getAllPosts, getAllCategories, getAllTags } from "@/lib/mock-data";
 import { WebSiteJsonLd } from "@/components/json-ld";
 import { FadeIn, ScrollReveal } from "@/components/animations";
 import { AuthorCard } from "@/components/author-card";
+import { MiniCalendar } from "@/components/mini-calendar";
+import { SiteDuration } from "@/components/site-duration";
+import { WeatherCard } from "@/components/weather-card";
 
 export const metadata: Metadata = {
   title: "首页",
@@ -125,7 +128,7 @@ export default function HomePage() {
               <div className="p-5">
                 {/* 图片区域 */}
                 <div className="relative w-full mb-4">
-                  <div className="relative w-full aspect-[3/2] rounded-lg overflow-hidden shadow-xl will-change-transform">
+                  <div className="relative w-full aspect-3/2 rounded-lg overflow-hidden shadow-xl will-change-transform">
                     <Image
                       src={pinnedPost.coverImage || "/placeholder.svg"}
                       alt={pinnedPost.title}
@@ -137,7 +140,7 @@ export default function HomePage() {
 
                 {/* 分类和日期 */}
                 <div className="flex items-center gap-2 text-sm text-gray-400 dark:text-muted-foreground mb-3">
-                  <span className="px-3 py-1 bg-blue-50 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400 text-xs font-semibold rounded-full">
+                  <span className="px-3 py-1 bg-blue-50 dark:bg-blue-500/15 text-blue-600 dark:text-blue-400 text-xs font-semibold rounded-full">
                     {pinnedPost.category.name}
                   </span>
                   <span>•</span>
@@ -160,7 +163,7 @@ export default function HomePage() {
                 <div className="-mx-5 -mb-5 px-5 py-4 bg-gray-50 dark:bg-muted/50 border-t border-gray-100 dark:border-border">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                      <div className="w-8 h-8 bg-linear-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white text-xs font-bold">
                         J
                       </div>
                       <span className="text-sm text-gray-600 dark:text-muted-foreground font-medium">
@@ -215,7 +218,7 @@ export default function HomePage() {
                     >
                       {/* 图片区域 - 带圆角和边距 */}
                       <div className="relative w-full p-3">
-                        <div className="relative w-full aspect-[3/2] rounded-lg overflow-hidden shadow-xl will-change-transform">
+                        <div className="relative w-full aspect-3/2 rounded-lg overflow-hidden shadow-xl will-change-transform">
                           <Image
                             src={post.coverImage || "/placeholder.svg"}
                             alt={post.title}
@@ -229,7 +232,7 @@ export default function HomePage() {
                       <div className="p-5 flex flex-col flex-1">
                         {/* 分类和日期 */}
                         <div className="flex items-center justify-between mb-3">
-                          <span className="px-3 py-1 bg-blue-50 dark:bg-blue-950/30 text-blue-600 dark:text-blue-400 text-xs font-semibold rounded-full">
+                          <span className="px-3 py-1 bg-blue-50 dark:bg-blue-500/15 text-blue-600 dark:text-blue-400 text-xs font-semibold rounded-full">
                             {post.category.name}
                           </span>
                           <span className="text-xs text-gray-400 dark:text-muted-foreground">
@@ -251,7 +254,7 @@ export default function HomePage() {
                         <div className="-mx-5 -mb-5 px-5 py-4 bg-gray-50 dark:bg-muted/50 border-t border-gray-100 dark:border-border">
                           <div className="flex items-center justify-between">
                             <div className="flex items-center gap-2">
-                              <div className="w-7 h-7 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                              <div className="w-7 h-7 bg-linear-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white text-xs font-bold">
                                 J
                               </div>
                               <span className="text-xs text-gray-600 dark:text-muted-foreground font-medium">
@@ -290,51 +293,17 @@ export default function HomePage() {
         <aside className="lg:col-span-2 space-y-6">
           {/* 建站时长 */}
           <ScrollReveal>
-            <div className="group bg-white dark:bg-card rounded-2xl p-5 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-border">
-              <h3 className="font-semibold mb-4 flex items-center gap-2 text-sm text-gray-900 dark:text-foreground">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
-                建站时长
-              </h3>
-              <div className="text-center py-4">
-                <div className="text-3xl font-bold text-blue-600 dark:text-primary mb-1">365</div>
-                <div className="text-sm text-gray-500 dark:text-muted-foreground">天</div>
-              </div>
-              <div className="text-xs text-gray-500 dark:text-muted-foreground text-center">
-                已稳定运行
-              </div>
-            </div>
+            <SiteDuration />
           </ScrollReveal>
 
-          {/* 日历占位 */}
+          {/* 日历组件 */}
           <ScrollReveal>
-            <div className="group bg-white dark:bg-card rounded-2xl p-5 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-border">
-              <h3 className="font-semibold mb-4 flex items-center gap-2 text-sm text-gray-900 dark:text-foreground">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
-                日历
-              </h3>
-              <div className="h-40 flex items-center justify-center bg-gray-50 dark:bg-muted rounded-lg">
-                <span className="text-xs text-gray-500 dark:text-muted-foreground">日历组件占位</span>
-              </div>
-            </div>
+            <MiniCalendar />
           </ScrollReveal>
 
-          {/* 天气占位 */}
+          {/* 天气组件 */}
           <ScrollReveal>
-            <div className="group bg-white dark:bg-card rounded-2xl p-5 shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-border">
-              <h3 className="font-semibold mb-4 flex items-center gap-2 text-sm text-gray-900 dark:text-foreground">
-                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
-                </svg>
-                今日天气
-              </h3>
-              <div className="h-28 flex items-center justify-center bg-gray-50 dark:bg-muted rounded-lg">
-                <span className="text-xs text-gray-500 dark:text-muted-foreground">天气组件占位</span>
-              </div>
-            </div>
+            <WeatherCard />
           </ScrollReveal>
         </aside>
       </div>

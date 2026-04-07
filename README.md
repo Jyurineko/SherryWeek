@@ -1,6 +1,6 @@
 # Cyberlilith 赛博莉莉丝 - 个人博客系统
 
-基于 Next.js 14 + TypeScript + Tailwind CSS 构建的现代化个人博客系统。
+基于 Next.js 16 + TypeScript + Tailwind CSS 构建的现代化个人博客系统。
 
 ## ✨ 功能特性
 

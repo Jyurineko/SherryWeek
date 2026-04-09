@@ -7,7 +7,7 @@ import { FadeIn, ScrollReveal } from "@/components/animations";
 import { AuthorCard } from "@/components/author-card";
 import { MiniCalendar } from "@/components/mini-calendar";
 import { SiteDuration } from "@/components/site-duration";
-import { WeatherCard } from "@/components/weather-card";
+import { WeatherContainer } from "@/components/weather-container";
 
 export const metadata: Metadata = {
   title: "首页",
@@ -303,7 +303,7 @@ export default function HomePage() {
 
           {/* 天气组件 */}
           <ScrollReveal>
-            <WeatherCard />
+            <WeatherContainer />
           </ScrollReveal>
         </aside>
       </div>

@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getCategoryBySlug, getPostsByCategory, getAllCategories } from "@/lib/mock-data";
+import { getCategoryBySlug, getPostsByCategory } from "@/lib/payload";
 import { CardHover, FadeIn, ScrollReveal } from "@/components/animations";
 import { BreadcrumbJsonLd } from "@/components/json-ld";
 
@@ -12,14 +12,9 @@ interface CategoryPageProps {
   }>;
 }
 
-export function generateStaticParams() {
-  const categories = getAllCategories();
-  return categories.map((cat) => ({ slug: cat.slug }));
-}
-
 export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const category = getCategoryBySlug(slug);
+  const category = await getCategoryBySlug(slug);
 
   if (!category) {
     return { title: "分类未找到" };
@@ -33,13 +28,13 @@ export async function generateMetadata({ params }: CategoryPageProps): Promise<M
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
   const { slug } = await params;
-  const category = getCategoryBySlug(slug);
+  const category = await getCategoryBySlug(slug);
 
   if (!category) {
     notFound();
   }
 
-  const posts = getPostsByCategory(slug);
+  const posts = await getPostsByCategory(slug);
 
   return (
     <>

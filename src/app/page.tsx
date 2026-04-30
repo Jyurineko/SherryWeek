@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Metadata } from "next";
-import { getAllPosts, getAllCategories, getAllTags } from "@/lib/mock-data";
+import { getAllPosts, getAllCategories, getAllTags } from "@/lib/payload";
 import { WebSiteJsonLd } from "@/components/json-ld";
 import { FadeIn, ScrollReveal } from "@/components/animations";
 import { AuthorCard } from "@/components/author-card";
@@ -18,10 +18,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function HomePage() {
-  const posts = getAllPosts();
-  const categories = getAllCategories();
-  const tags = getAllTags();
+export default async function HomePage() {
+  const posts = await getAllPosts();
+  const categories = await getAllCategories();
+  const tags = await getAllTags();
 
   // 第一个为置顶文章，其余为最新文章
   const pinnedPost = posts[0];

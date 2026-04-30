@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getPostBySlug, getAllPosts } from "@/lib/mock-data";
+import { getPostBySlug } from "@/lib/payload";
 import { BlogPostJsonLd, BreadcrumbJsonLd } from "@/components/json-ld";
 import { MarkdownRenderer } from "@/components/markdown-renderer";
 import { FadeIn, ScrollReveal } from "@/components/animations";
@@ -14,18 +14,10 @@ interface PostPageProps {
   }>;
 }
 
-// 生成静态参数
-export function generateStaticParams() {
-  const posts = getAllPosts();
-  return posts.map((post) => ({
-    slug: post.slug,
-  }));
-}
-
 // 动态生成 metadata
 export async function generateMetadata({ params }: PostPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
 
   if (!post) {
     return {
@@ -62,7 +54,7 @@ export async function generateMetadata({ params }: PostPageProps): Promise<Metad
 
 export default async function PostPage({ params }: PostPageProps) {
   const { slug } = await params;
-  const post = getPostBySlug(slug);
+  const post = await getPostBySlug(slug);
 
   if (!post) {
     notFound();

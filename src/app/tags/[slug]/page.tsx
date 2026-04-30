@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getTagBySlug, getPostsByTag, getAllTags } from "@/lib/mock-data";
+import { getTagBySlug, getPostsByTag } from "@/lib/payload";
 import { CardHover, FadeIn, ScrollReveal } from "@/components/animations";
 import { BreadcrumbJsonLd } from "@/components/json-ld";
 
@@ -12,14 +12,9 @@ interface TagPageProps {
   }>;
 }
 
-export function generateStaticParams() {
-  const tags = getAllTags();
-  return tags.map((tag) => ({ slug: tag.slug }));
-}
-
 export async function generateMetadata({ params }: TagPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const tag = getTagBySlug(slug);
+  const tag = await getTagBySlug(slug);
 
   if (!tag) {
     return { title: "标签未找到" };
@@ -33,13 +28,13 @@ export async function generateMetadata({ params }: TagPageProps): Promise<Metada
 
 export default async function TagPage({ params }: TagPageProps) {
   const { slug } = await params;
-  const tag = getTagBySlug(slug);
+  const tag = await getTagBySlug(slug);
 
   if (!tag) {
     notFound();
   }
 
-  const posts = getPostsByTag(slug);
+  const posts = await getPostsByTag(slug);
 
   return (
     <>

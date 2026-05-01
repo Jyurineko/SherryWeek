@@ -2,7 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useEffect, useState } from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
+
+interface NavCategory {
+  id: string;
+  name: string;
+  slug: string;
+}
 
 // 导航链接组件 - 带当前页面高亮
 function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
@@ -31,6 +38,23 @@ export function ClientLayout({
 }: {
   children: React.ReactNode;
 }) {
+  const [categories, setCategories] = useState<NavCategory[]>([]);
+
+  useEffect(() => {
+    async function fetchCategories() {
+      try {
+        const res = await fetch("/api/nav-categories");
+        if (res.ok) {
+          const data = await res.json();
+          setCategories(data.categories || []);
+        }
+      } catch {
+        // 静默失败，保持默认导航
+      }
+    }
+    fetchCategories();
+  }, []);
+
   return (
     <>
       <header className="sticky top-4 z-50 w-full px-4 sm:px-6 lg:px-8">
@@ -47,7 +71,11 @@ export function ClientLayout({
             </Link>
             <nav className="hidden md:flex items-center gap-10">
               <NavLink href="/">首页</NavLink>
-              <NavLink href="/categories/">分类</NavLink>
+              {categories.map((cat) => (
+                <NavLink key={cat.id} href={`/categories/${cat.slug}/`}>
+                  {cat.name}
+                </NavLink>
+              ))}
               <NavLink href="/tags/">标签</NavLink>
               <NavLink href="/about/">关于</NavLink>
             </nav>

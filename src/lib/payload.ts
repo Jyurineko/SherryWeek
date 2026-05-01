@@ -1,6 +1,17 @@
 import type { BlogPost, BlogPostListItem, Category, Tag, Author } from "@/types/blog";
+import {
+  getAllPosts as getMockPosts,
+  getPostBySlug as getMockPostBySlug,
+  getPostsByCategory as getMockPostsByCategory,
+  getPostsByTag as getMockPostsByTag,
+  getAllCategories as getMockCategories,
+  getAllTags as getMockTags,
+  getCategoryBySlug as getMockCategoryBySlug,
+  getTagBySlug as getMockTagBySlug,
+} from "./mock-data";
 
 const PAYLOAD_API_URL = process.env.PAYLOAD_API_URL || "https://jyurineko.website/api";
+const USE_MOCK_FALLBACK = true;
 
 interface PayloadResponse<T> {
   docs: T[];
@@ -162,7 +173,10 @@ export async function getAllPosts(): Promise<BlogPostListItem[]> {
     );
     return data.docs.map(normalizePostListItem);
   } catch (error) {
-    console.error("Failed to fetch posts:", error);
+    console.warn("Payload API failed, falling back to mock data:", error);
+    if (USE_MOCK_FALLBACK) {
+      return getMockPosts();
+    }
     return [];
   }
 }
@@ -176,7 +190,10 @@ export async function getPostBySlug(slug: string): Promise<BlogPost | null> {
     if (!post) return null;
     return normalizePost(post);
   } catch (error) {
-    console.error("Failed to fetch post by slug:", error);
+    console.warn("Payload API failed, falling back to mock data:", error);
+    if (USE_MOCK_FALLBACK) {
+      return getMockPostBySlug(slug) || null;
+    }
     return null;
   }
 }
@@ -188,7 +205,10 @@ export async function getPostsByCategory(categorySlug: string): Promise<BlogPost
     );
     return data.docs.map(normalizePostListItem);
   } catch (error) {
-    console.error("Failed to fetch posts by category:", error);
+    console.warn("Payload API failed, falling back to mock data:", error);
+    if (USE_MOCK_FALLBACK) {
+      return getMockPostsByCategory(categorySlug);
+    }
     return [];
   }
 }
@@ -200,7 +220,10 @@ export async function getPostsByTag(tagSlug: string): Promise<BlogPostListItem[]
     );
     return data.docs.map(normalizePostListItem);
   } catch (error) {
-    console.error("Failed to fetch posts by tag:", error);
+    console.warn("Payload API failed, falling back to mock data:", error);
+    if (USE_MOCK_FALLBACK) {
+      return getMockPostsByTag(tagSlug);
+    }
     return [];
   }
 }
@@ -217,7 +240,10 @@ export async function getAllCategories(): Promise<Category[]> {
       description: cat.description,
     }));
   } catch (error) {
-    console.error("Failed to fetch categories:", error);
+    console.warn("Payload API failed, falling back to mock data:", error);
+    if (USE_MOCK_FALLBACK) {
+      return getMockCategories();
+    }
     return [];
   }
 }
@@ -233,7 +259,10 @@ export async function getAllTags(): Promise<Tag[]> {
       slug: tag.slug,
     }));
   } catch (error) {
-    console.error("Failed to fetch tags:", error);
+    console.warn("Payload API failed, falling back to mock data:", error);
+    if (USE_MOCK_FALLBACK) {
+      return getMockTags();
+    }
     return [];
   }
 }
@@ -252,7 +281,10 @@ export async function getCategoryBySlug(slug: string): Promise<Category | null> 
       description: cat.description,
     };
   } catch (error) {
-    console.error("Failed to fetch category by slug:", error);
+    console.warn("Payload API failed, falling back to mock data:", error);
+    if (USE_MOCK_FALLBACK) {
+      return getMockCategoryBySlug(slug) || null;
+    }
     return null;
   }
 }
@@ -270,7 +302,10 @@ export async function getTagBySlug(slug: string): Promise<Tag | null> {
       slug: tag.slug,
     };
   } catch (error) {
-    console.error("Failed to fetch tag by slug:", error);
+    console.warn("Payload API failed, falling back to mock data:", error);
+    if (USE_MOCK_FALLBACK) {
+      return getMockTagBySlug(slug) || null;
+    }
     return null;
   }
 }

@@ -6,6 +6,8 @@ import { getTagBySlug, getPostsByTag } from "@/lib/payload-local";
 import { CardHover, FadeIn, ScrollReveal } from "@/components/animations";
 import { BreadcrumbJsonLd } from "@/components/json-ld";
 
+export const dynamic = 'force-dynamic';
+
 interface TagPageProps {
   params: Promise<{
     slug: string;

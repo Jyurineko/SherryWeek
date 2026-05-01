@@ -9,6 +9,9 @@ import { MiniCalendar } from "@/components/mini-calendar";
 import { SiteDuration } from "@/components/site-duration";
 import { WeatherContainer } from "@/components/weather-container";
 
+// 强制 SSR，每次请求都动态获取数据
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: "首页",
   description: "个人博客，赛博仓库，谷歌广告认证题库，谷歌广告认证答案",

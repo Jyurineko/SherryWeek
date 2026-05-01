@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { ClientLayout } from "./client-layout";
 import { ThemeProvider } from "@/components/theme-provider";
+import { getHeader, getFooter } from "@/lib/payload-local";
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -54,11 +55,15 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // 从 CMS 获取 Header 和 Footer 数据
+  const header = await getHeader();
+  const footer = await getFooter();
+
   return (
     <html lang="zh-CN" suppressHydrationWarning>
       <body className="antialiased min-h-screen flex flex-col">
@@ -68,7 +73,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange={false}
         >
-          <ClientLayout>
+          <ClientLayout header={header} footer={footer}>
             {children}
           </ClientLayout>
         </ThemeProvider>

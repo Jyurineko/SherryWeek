@@ -8,6 +8,8 @@ import { MarkdownRenderer } from "@/components/markdown-renderer";
 import { FadeIn, ScrollReveal } from "@/components/animations";
 import { ShareButtons } from "@/components/share-buttons";
 
+export const dynamic = 'force-dynamic';
+
 interface PostPageProps {
   params: Promise<{
     slug: string;

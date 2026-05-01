@@ -6,6 +6,8 @@ import { getCategoryBySlug, getPostsByCategory } from "@/lib/payload-local";
 import { CardHover, FadeIn, ScrollReveal } from "@/components/animations";
 import { BreadcrumbJsonLd } from "@/components/json-ld";
 
+export const dynamic = 'force-dynamic';
+
 interface CategoryPageProps {
   params: Promise<{
     slug: string;

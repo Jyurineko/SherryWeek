@@ -3,6 +3,8 @@ import Image from "next/image";
 import { FadeIn, ScrollReveal } from "@/components/animations";
 import { mockAuthor } from "@/lib/mock-data";
 
+export const dynamic = 'force-dynamic';
+
 export const metadata: Metadata = {
   title: "关于我",
   description: "了解更多关于博主的信息",

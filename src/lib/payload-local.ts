@@ -250,3 +250,87 @@ export async function getTagBySlug(slug: string): Promise<Tag | null> {
     return null
   }
 }
+
+// Header
+export interface HeaderData {
+  logo?: string
+  siteTitle: string
+  tagline?: string
+  navItems: Array<{
+    label: string
+    link: string
+    newTab: boolean
+  }>
+  socialLinks: Array<{
+    platform: string
+    url: string
+    icon?: string
+  }>
+}
+
+export async function getHeader(): Promise<HeaderData | null> {
+  try {
+    const payload = await getPayloadClient()
+    const result = await payload.findGlobal({
+      slug: 'header',
+    })
+    if (!result) return null
+    return {
+      logo: typeof result.logo === 'object' ? String(result.logo?.url || '') || undefined : String(result.logo || '') || undefined,
+      siteTitle: result.siteTitle || '赛博莉莉丝',
+      tagline: result.tagline || undefined,
+      navItems: Array.isArray(result.navItems)
+        ? result.navItems.map((item: any) => ({
+            label: item.label,
+            link: item.link,
+            newTab: item.newTab || false,
+          }))
+        : [],
+      socialLinks: Array.isArray(result.socialLinks)
+        ? result.socialLinks.map((link: any) => ({
+            platform: link.platform,
+            url: link.url,
+            icon: typeof link.icon === 'object' ? link.icon?.url : link.icon,
+          }))
+        : [],
+    }
+  } catch (error) {
+    console.error('Failed to fetch header:', error)
+    return null
+  }
+}
+
+// Footer
+export interface FooterData {
+  copyright: string
+  icp?: string
+  links: Array<{
+    label: string
+    url: string
+  }>
+  showPoweredBy: boolean
+}
+
+export async function getFooter(): Promise<FooterData | null> {
+  try {
+    const payload = await getPayloadClient()
+    const result = await payload.findGlobal({
+      slug: 'footer',
+    })
+    if (!result) return null
+    return {
+      copyright: result.copyright || '© 2026 赛博莉莉丝. All rights reserved.',
+      icp: result.icp || undefined,
+      links: Array.isArray(result.links)
+        ? result.links.map((link: any) => ({
+            label: link.label,
+            url: link.url,
+          }))
+        : [],
+      showPoweredBy: result.showPoweredBy !== false,
+    }
+  } catch (error) {
+    console.error('Failed to fetch footer:', error)
+    return null
+  }
+}

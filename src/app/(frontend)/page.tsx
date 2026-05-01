@@ -24,7 +24,7 @@ export default async function HomePage() {
   const tags = await getAllTags();
 
   // 第一个为置顶文章，其余为最新文章
-  const pinnedPost = posts[0];
+  const pinnedPost = posts[0] || null;
   const latestPosts = posts.slice(1);
 
   // 格式化日期
@@ -120,78 +120,95 @@ export default async function HomePage() {
         {/* 中间内容区 */}
         <main className="lg:col-span-8 space-y-8">
           {/* 置顶文章 - 新卡片样式 */}
-          <ScrollReveal>
-            <Link
-              href={`/posts/${pinnedPost.slug}/`}
-              className="group block bg-white dark:bg-card rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-border"
-            >
-              <div className="p-5">
-                {/* 图片区域 */}
-                <div className="relative w-full mb-4">
-                  <div className="relative w-full aspect-3/2 rounded-lg overflow-hidden shadow-xl will-change-transform">
-                    <Image
-                      src={pinnedPost.coverImage || "/placeholder.svg"}
-                      alt={pinnedPost.title}
-                      fill
-                      className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-                    />
+          {pinnedPost && (
+            <ScrollReveal>
+              <Link
+                href={`/posts/${pinnedPost.slug}/`}
+                className="group block bg-white dark:bg-card rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 border border-gray-100 dark:border-border"
+              >
+                <div className="p-5">
+                  {/* 图片区域 */}
+                  <div className="relative w-full mb-4">
+                    <div className="relative w-full aspect-3/2 rounded-lg overflow-hidden shadow-xl will-change-transform">
+                      <Image
+                        src={pinnedPost.coverImage || "/placeholder.svg"}
+                        alt={pinnedPost.title}
+                        fill
+                        className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+                      />
+                    </div>
                   </div>
-                </div>
 
-                {/* 分类和日期 */}
-                <div className="flex items-center gap-2 text-sm text-gray-400 dark:text-muted-foreground mb-3">
-                  <span className="px-3 py-1 bg-blue-50 dark:bg-blue-500/15 text-blue-600 dark:text-blue-400 text-xs font-semibold rounded-full">
-                    {pinnedPost.category.name}
-                  </span>
-                  <span>•</span>
-                  <span>{formatDate(pinnedPost.publishedAt)}</span>
-                  <span>•</span>
-                  <span>{pinnedPost.readingTime} 分钟阅读</span>
-                </div>
+                  {/* 分类和日期 */}
+                  <div className="flex items-center gap-2 text-sm text-gray-400 dark:text-muted-foreground mb-3">
+                    <span className="px-3 py-1 bg-blue-50 dark:bg-blue-500/15 text-blue-600 dark:text-blue-400 text-xs font-semibold rounded-full">
+                      {pinnedPost.category.name}
+                    </span>
+                    <span>•</span>
+                    <span>{formatDate(pinnedPost.publishedAt)}</span>
+                    <span>•</span>
+                    <span>{pinnedPost.readingTime} 分钟阅读</span>
+                  </div>
 
-                {/* 标题 */}
-                <h3 className="text-xl font-bold text-gray-900 dark:text-foreground mb-3 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-primary transition-colors">
-                  {pinnedPost.title}
-                </h3>
+                  {/* 标题 */}
+                  <h3 className="text-xl font-bold text-gray-900 dark:text-foreground mb-3 line-clamp-2 group-hover:text-blue-600 dark:group-hover:text-primary transition-colors">
+                    {pinnedPost.title}
+                  </h3>
 
-                {/* 摘要 */}
-                <p className="text-gray-600 dark:text-muted-foreground text-sm line-clamp-3 mb-4">
-                  {pinnedPost.excerpt}
-                </p>
+                  {/* 摘要 */}
+                  <p className="text-gray-600 dark:text-muted-foreground text-sm line-clamp-3 mb-4">
+                    {pinnedPost.excerpt}
+                  </p>
 
-                {/* 底部信息区 - 灰色背景 */}
-                <div className="-mx-5 -mb-5 px-5 py-4 bg-gray-50 dark:bg-muted/50 border-t border-gray-100 dark:border-border">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 bg-linear-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white text-xs font-bold">
-                        J
+                  {/* 底部信息区 - 灰色背景 */}
+                  <div className="-mx-5 -mb-5 px-5 py-4 bg-gray-50 dark:bg-muted/50 border-t border-gray-100 dark:border-border">
+                    <div className="flex items-center justify-between">
+                      <div className="flex items-center gap-2">
+                        <div className="w-8 h-8 bg-linear-to-br from-blue-400 to-blue-600 rounded-full flex items-center justify-center text-white text-xs font-bold">
+                          J
+                        </div>
+                        <span className="text-sm text-gray-600 dark:text-muted-foreground font-medium">
+                          Jaeger
+                        </span>
                       </div>
-                      <span className="text-sm text-gray-600 dark:text-muted-foreground font-medium">
-                        Jaeger
+                      <span className="text-blue-600 dark:text-primary text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
+                        阅读更多
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
                       </span>
                     </div>
-                    <span className="text-blue-600 dark:text-primary text-sm font-medium flex items-center gap-1 group-hover:gap-2 transition-all">
-                      阅读更多
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                      </svg>
-                    </span>
-                  </div>
-                  {/* Tags */}
-                  <div className="mt-3 flex flex-wrap gap-2">
-                    {pinnedPost.tags.map((tag) => (
-                      <span
-                        key={tag.id}
-                        className="px-2 py-1 bg-white dark:bg-card text-gray-500 dark:text-muted-foreground text-xs rounded border border-gray-200 dark:border-border"
-                      >
-                        #{tag.name}
-                      </span>
-                    ))}
+                    {/* Tags */}
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      {pinnedPost.tags.map((tag) => (
+                        <span
+                          key={tag.id}
+                          className="px-2 py-1 bg-white dark:bg-card text-gray-500 dark:text-muted-foreground text-xs rounded border border-gray-200 dark:border-border"
+                        >
+                          #{tag.name}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
+              </Link>
+            </ScrollReveal>
+          )}
+
+          {/* 空状态提示 */}
+          {!pinnedPost && (
+            <ScrollReveal>
+              <div className="bg-white dark:bg-card rounded-2xl p-8 text-center border border-gray-100 dark:border-border">
+                <p className="text-gray-500 dark:text-muted-foreground">暂无文章，请在后台创建文章</p>
+                <Link
+                  href="/admin"
+                  className="inline-block mt-4 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                >
+                  进入后台管理
+                </Link>
               </div>
-            </Link>
-          </ScrollReveal>
+            </ScrollReveal>
+          )}
 
           {/* 最新文章 - 3列 */}
           <ScrollReveal>

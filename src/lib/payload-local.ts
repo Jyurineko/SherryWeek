@@ -8,7 +8,7 @@ async function getPayloadClient() {
 
 function normalizePost(post: any): BlogPost {
   return {
-    id: post.id,
+    id: String(post.id),
     title: post.title,
     slug: post.slug,
     excerpt: post.excerpt,
@@ -17,7 +17,7 @@ function normalizePost(post: any): BlogPost {
     publishedAt: post.publishedAt,
     updatedAt: post.updatedAt,
     author: {
-      id: typeof post.author === 'object' ? post.author?.id : post.author,
+      id: String(typeof post.author === 'object' ? post.author?.id : post.author),
       name: typeof post.author === 'object' ? post.author?.name || 'Unknown' : 'Unknown',
       avatar: typeof post.author === 'object' && post.author?.avatar
         ? (typeof post.author.avatar === 'object' ? post.author.avatar.url : post.author.avatar)
@@ -26,14 +26,14 @@ function normalizePost(post: any): BlogPost {
       url: typeof post.author === 'object' ? post.author?.url : undefined,
     },
     category: {
-      id: typeof post.category === 'object' ? post.category?.id : post.category,
+      id: String(typeof post.category === 'object' ? post.category?.id : post.category),
       name: typeof post.category === 'object' ? post.category?.name || 'Unknown' : 'Unknown',
       slug: typeof post.category === 'object' ? post.category?.slug || 'unknown' : 'unknown',
       description: typeof post.category === 'object' ? post.category?.description : undefined,
     },
     tags: Array.isArray(post.tags)
       ? post.tags.map((tag: any) => ({
-          id: typeof tag === 'object' ? tag?.id : tag,
+          id: String(typeof tag === 'object' ? tag?.id : tag),
           name: typeof tag === 'object' ? tag?.name || 'Unknown' : 'Unknown',
           slug: typeof tag === 'object' ? tag?.slug || 'unknown' : 'unknown',
         }))
@@ -171,10 +171,10 @@ export async function getAllCategories(): Promise<Category[]> {
       limit: 100,
     })
     return result.docs.map((cat: any) => ({
-      id: cat.id,
+      id: String(cat.id),
       name: cat.name,
       slug: cat.slug,
-      description: cat.description,
+      description: cat.description || undefined,
     }))
   } catch (error) {
     console.error('Failed to fetch categories via Local API:', error)
@@ -190,7 +190,7 @@ export async function getAllTags(): Promise<Tag[]> {
       limit: 100,
     })
     return result.docs.map((tag: any) => ({
-      id: tag.id,
+      id: String(tag.id),
       name: tag.name,
       slug: tag.slug,
     }))
@@ -215,10 +215,10 @@ export async function getCategoryBySlug(slug: string): Promise<Category | null> 
     const cat = result.docs[0]
     if (!cat) return null
     return {
-      id: cat.id,
+      id: String(cat.id),
       name: cat.name,
       slug: cat.slug,
-      description: cat.description,
+      description: cat.description || undefined,
     }
   } catch (error) {
     console.error('Failed to fetch category by slug via Local API:', error)
@@ -241,7 +241,7 @@ export async function getTagBySlug(slug: string): Promise<Tag | null> {
     const tag = result.docs[0]
     if (!tag) return null
     return {
-      id: tag.id,
+      id: String(tag.id),
       name: tag.name,
       slug: tag.slug,
     }

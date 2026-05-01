@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { Metadata } from "next";
-import { getAllPosts, getAllCategories, getAllTags } from "@/lib/payload";
+import { getAllPosts, getAllCategories, getAllTags } from "@/lib/payload-local";
 import { WebSiteJsonLd } from "@/components/json-ld";
 import { FadeIn, ScrollReveal } from "@/components/animations";
 import { AuthorCard } from "@/components/author-card";

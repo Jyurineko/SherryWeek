@@ -2,7 +2,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getPostBySlug } from "@/lib/payload";
+import { getPostBySlug } from "@/lib/payload-local";
 import { BlogPostJsonLd, BreadcrumbJsonLd } from "@/components/json-ld";
 import { MarkdownRenderer } from "@/components/markdown-renderer";
 import { FadeIn, ScrollReveal } from "@/components/animations";

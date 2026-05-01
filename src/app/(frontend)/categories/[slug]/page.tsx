@@ -2,47 +2,47 @@ import Link from "next/link";
 import Image from "next/image";
 import { Metadata } from "next";
 import { notFound } from "next/navigation";
-import { getTagBySlug, getPostsByTag } from "@/lib/payload";
+import { getCategoryBySlug, getPostsByCategory } from "@/lib/payload-local";
 import { CardHover, FadeIn, ScrollReveal } from "@/components/animations";
 import { BreadcrumbJsonLd } from "@/components/json-ld";
 
-interface TagPageProps {
+interface CategoryPageProps {
   params: Promise<{
     slug: string;
   }>;
 }
 
-export async function generateMetadata({ params }: TagPageProps): Promise<Metadata> {
+export async function generateMetadata({ params }: CategoryPageProps): Promise<Metadata> {
   const { slug } = await params;
-  const tag = await getTagBySlug(slug);
+  const category = await getCategoryBySlug(slug);
 
-  if (!tag) {
-    return { title: "标签未找到" };
+  if (!category) {
+    return { title: "分类未找到" };
   }
 
   return {
-    title: `${tag.name} - 文章标签`,
-    description: `浏览所有关于 ${tag.name} 的文章`,
+    title: `${category.name} - 文章分类`,
+    description: category.description,
   };
 }
 
-export default async function TagPage({ params }: TagPageProps) {
+export default async function CategoryPage({ params }: CategoryPageProps) {
   const { slug } = await params;
-  const tag = await getTagBySlug(slug);
+  const category = await getCategoryBySlug(slug);
 
-  if (!tag) {
+  if (!category) {
     notFound();
   }
 
-  const posts = await getPostsByTag(slug);
+  const posts = await getPostsByCategory(slug);
 
   return (
     <>
       <BreadcrumbJsonLd
         items={[
           { name: "首页", item: "/" },
-          { name: "标签", item: "/tags/" },
-          { name: tag.name, item: `/tags/${slug}/` },
+          { name: "分类", item: "/categories/" },
+          { name: category.name, item: `/categories/${slug}/` },
         ]}
       />
 
@@ -52,12 +52,13 @@ export default async function TagPage({ params }: TagPageProps) {
             <nav className="flex items-center gap-2 text-sm text-muted-foreground mb-4">
               <Link href="/" className="hover:text-primary">首页</Link>
               <span>/</span>
-              <Link href="/tags/" className="hover:text-primary">标签</Link>
+              <Link href="/categories/" className="hover:text-primary">分类</Link>
               <span>/</span>
-              <span className="text-foreground">#{tag.name}</span>
+              <span className="text-foreground">{category.name}</span>
             </nav>
-            <h1 className="text-3xl md:text-4xl font-bold mb-2">#{tag.name}</h1>
-            <p className="text-sm text-muted-foreground">共 {posts.length} 篇文章</p>
+            <h1 className="text-3xl md:text-4xl font-bold mb-2">{category.name}</h1>
+            <p className="text-muted-foreground">{category.description}</p>
+            <p className="text-sm text-muted-foreground mt-2">共 {posts.length} 篇文章</p>
           </header>
         </FadeIn>
 

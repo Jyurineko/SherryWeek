@@ -145,11 +145,15 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: number;
+  roles: ('admin' | 'editor')[];
   name?: string | null;
   avatar?: (number | null) | Media;
   bio?: string | null;
   updatedAt: string;
   createdAt: string;
+  enableAPIKey?: boolean | null;
+  apiKey?: string | null;
+  apiKeyIndex?: string | null;
   email: string;
   resetPasswordToken?: string | null;
   resetPasswordExpiration?: string | null;
@@ -218,6 +222,7 @@ export interface Media {
  */
 export interface Category {
   id: number;
+  _order?: string | null;
   name: string;
   slug: string;
   description?: string | null;
@@ -239,6 +244,7 @@ export interface Category {
  */
 export interface Tag {
   id: number;
+  _order?: string | null;
   name: string;
   slug: string;
   updatedAt: string;
@@ -269,12 +275,15 @@ export interface Post {
     [k: string]: unknown;
   };
   coverImage?: (number | null) | Media;
-  publishedAt: string;
+  codeSnippet?: string | null;
   author: number | User;
   category: number | Category;
   tags?: (number | Tag)[] | null;
   readingTime?: number | null;
+  sortWeight?: number | null;
+  views?: number | null;
   status: 'draft' | 'published';
+  publishedAt: string;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -294,7 +303,7 @@ export interface Page {
    * 页面摘要，用于 SEO 和列表展示
    */
   excerpt?: string | null;
-  content: {
+  content?: {
     root: {
       type: string;
       children: {
@@ -308,7 +317,69 @@ export interface Page {
       version: number;
     };
     [k: string]: unknown;
-  };
+  } | null;
+  layout?:
+    | (
+        | {
+            heading: string;
+            subheading?: string | null;
+            backgroundImage?: (number | null) | Media;
+            cta?: {
+              label?: string | null;
+              link?: string | null;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'hero';
+          }
+        | {
+            body: {
+              root: {
+                type: string;
+                children: {
+                  type: any;
+                  version: number;
+                  [k: string]: unknown;
+                }[];
+                direction: ('ltr' | 'rtl') | null;
+                format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+                indent: number;
+                version: number;
+              };
+              [k: string]: unknown;
+            };
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'richText';
+          }
+        | {
+            cards?:
+              | {
+                  title: string;
+                  description?: string | null;
+                  image?: (number | null) | Media;
+                  link?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'cardGrid';
+          }
+        | {
+            images?:
+              | {
+                  image: number | Media;
+                  caption?: string | null;
+                  id?: string | null;
+                }[]
+              | null;
+            id?: string | null;
+            blockName?: string | null;
+            blockType: 'imageGallery';
+          }
+      )[]
+    | null;
   meta?: {
     /**
      * SEO 标题
@@ -325,6 +396,18 @@ export interface Page {
   };
   status: 'draft' | 'published';
   publishedAt?: string | null;
+  /**
+   * 高级页面配置（JSON 格式）
+   */
+  customSettings?:
+    | {
+        [k: string]: unknown;
+      }
+    | unknown[]
+    | string
+    | number
+    | boolean
+    | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -675,11 +758,15 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  roles?: T;
   name?: T;
   avatar?: T;
   bio?: T;
   updatedAt?: T;
   createdAt?: T;
+  enableAPIKey?: T;
+  apiKey?: T;
+  apiKeyIndex?: T;
   email?: T;
   resetPasswordToken?: T;
   resetPasswordExpiration?: T;
@@ -752,6 +839,7 @@ export interface MediaSelect<T extends boolean = true> {
  * via the `definition` "categories_select".
  */
 export interface CategoriesSelect<T extends boolean = true> {
+  _order?: T;
   name?: T;
   slug?: T;
   description?: T;
@@ -772,6 +860,7 @@ export interface CategoriesSelect<T extends boolean = true> {
  * via the `definition` "tags_select".
  */
 export interface TagsSelect<T extends boolean = true> {
+  _order?: T;
   name?: T;
   slug?: T;
   updatedAt?: T;
@@ -787,12 +876,15 @@ export interface PostsSelect<T extends boolean = true> {
   excerpt?: T;
   content?: T;
   coverImage?: T;
-  publishedAt?: T;
+  codeSnippet?: T;
   author?: T;
   category?: T;
   tags?: T;
   readingTime?: T;
+  sortWeight?: T;
+  views?: T;
   status?: T;
+  publishedAt?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -806,6 +898,60 @@ export interface PagesSelect<T extends boolean = true> {
   slug?: T;
   excerpt?: T;
   content?: T;
+  layout?:
+    | T
+    | {
+        hero?:
+          | T
+          | {
+              heading?: T;
+              subheading?: T;
+              backgroundImage?: T;
+              cta?:
+                | T
+                | {
+                    label?: T;
+                    link?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        richText?:
+          | T
+          | {
+              body?: T;
+              id?: T;
+              blockName?: T;
+            };
+        cardGrid?:
+          | T
+          | {
+              cards?:
+                | T
+                | {
+                    title?: T;
+                    description?: T;
+                    image?: T;
+                    link?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+        imageGallery?:
+          | T
+          | {
+              images?:
+                | T
+                | {
+                    image?: T;
+                    caption?: T;
+                    id?: T;
+                  };
+              id?: T;
+              blockName?: T;
+            };
+      };
   meta?:
     | T
     | {
@@ -815,6 +961,7 @@ export interface PagesSelect<T extends boolean = true> {
       };
   status?: T;
   publishedAt?: T;
+  customSettings?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -1040,10 +1187,6 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
  */
 export interface Header {
   id: number;
-  /**
-   * 网站 Logo
-   */
-  logo?: (number | null) | Media;
   siteTitle: string;
   tagline?: string | null;
   navItems?:
@@ -1095,7 +1238,6 @@ export interface Footer {
  * via the `definition` "header_select".
  */
 export interface HeaderSelect<T extends boolean = true> {
-  logo?: T;
   siteTitle?: T;
   tagline?: T;
   navItems?:

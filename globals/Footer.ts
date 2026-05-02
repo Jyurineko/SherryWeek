@@ -2,8 +2,13 @@ import type { GlobalConfig } from 'payload'
 
 export const Footer: GlobalConfig = {
   slug: 'footer',
+  label: '页脚设置',
+  admin: {
+    group: '全局设置',
+  },
   access: {
     read: () => true,
+    update: () => true,
   },
   fields: [
     {

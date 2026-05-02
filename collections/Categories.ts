@@ -2,11 +2,21 @@ import type { CollectionConfig } from 'payload'
 
 export const Categories: CollectionConfig = {
   slug: 'categories',
+  labels: {
+    singular: '分类',
+    plural: '分类',
+  },
   admin: {
     useAsTitle: 'name',
+    group: '内容管理',
   },
+  orderable: true,
+  defaultSort: 'name',
   access: {
     read: () => true,
+    create: () => true,
+    update: () => true,
+    delete: () => true,
   },
   fields: [
     {

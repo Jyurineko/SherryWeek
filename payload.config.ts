@@ -20,12 +20,13 @@ const dirname = path.dirname(filename)
 
 export default buildConfig({
   serverURL: process.env.NEXT_PUBLIC_SERVER_URL || 'https://cyberlilith.com',
-  
+
   admin: {
     user: Users.slug,
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    dateFormat: 'yyyy年M月d日 HH:mm',
     livePreview: {
       breakpoints: [
         {
@@ -51,7 +52,7 @@ export default buildConfig({
   },
 
   editor: lexicalEditor(),
-  
+
   db: sqliteAdapter({
     client: {
       url: process.env.DATABASE_URI || 'file:./payload.db',
@@ -59,21 +60,37 @@ export default buildConfig({
   }),
 
   collections: [Users, Media, Categories, Tags, Posts, Pages],
-  
+
   globals: [Header, Footer],
-  
+
   plugins,
-  
+
   cors: [
     process.env.NEXT_PUBLIC_SERVER_URL || 'https://cyberlilith.com',
     'http://localhost:3000',
     'http://localhost:3001',
   ].filter(Boolean),
-  
+
   secret: process.env.PAYLOAD_SECRET || '',
-  
+
+  onInit: async (payload) => {
+    const existing = await payload.find({ collection: 'users', limit: 1 })
+    if (existing.totalDocs === 0) {
+      await payload.create({
+        collection: 'users',
+        data: {
+          email: process.env.ADMIN_EMAIL || 'admin@example.com',
+          password: process.env.ADMIN_PASSWORD || 'changeme',
+          name: '管理员',
+          roles: ['admin'],
+        },
+      })
+      payload.logger.info('已自动创建默认管理员账户')
+    }
+  },
+
   sharp,
-  
+
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
   },

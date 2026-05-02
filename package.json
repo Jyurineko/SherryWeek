@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --webpack",
     "build": "next build",
     "postbuild": "next-sitemap",
     "start": "next start",
@@ -27,6 +27,7 @@
     "@types/react-syntax-highlighter": "^15.5.13",
     "clsx": "^2.1.1",
     "date-fns": "^4.1.0",
+    "framer-motion": "^12.38.0",
     "graphql": "^16.13.2",
     "lottie-react": "^2.4.1",
     "lucide-react": "^1.7.0",

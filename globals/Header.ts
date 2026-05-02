@@ -2,18 +2,15 @@ import type { GlobalConfig } from 'payload'
 
 export const Header: GlobalConfig = {
   slug: 'header',
+  label: '页头设置',
+  admin: {
+    group: '全局设置',
+  },
   access: {
     read: () => true,
+    update: () => true,
   },
   fields: [
-    {
-      name: 'logo',
-      type: 'upload',
-      relationTo: 'media',
-      admin: {
-        description: '网站 Logo',
-      },
-    },
     {
       name: 'siteTitle',
       type: 'text',

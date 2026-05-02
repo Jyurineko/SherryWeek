@@ -9,7 +9,7 @@ export function AuthorCard() {
         {/* 头像 */}
         <div className="relative w-24 h-24 rounded-full overflow-hidden mb-4 ring-2 ring-primary/20">
           <Image
-            src="https://api.dicebear.com/7.x/avataaars/svg?seed=Jaeger"
+            src="/selfie.jpg"
             alt="Jaeger"
             fill
             className="object-cover"

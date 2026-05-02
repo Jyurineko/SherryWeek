@@ -8,16 +8,17 @@ import { AuthorCard } from "@/components/author-card";
 import { MiniCalendar } from "@/components/mini-calendar";
 import { SiteDuration } from "@/components/site-duration";
 import { WeatherContainer } from "@/components/weather-container";
+import { HeroSection } from "@/components/hero-section";
 
 // 强制 SSR，每次请求都动态获取数据
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: "首页",
-  description: "个人博客，赛博仓库，谷歌广告认证题库，谷歌广告认证答案",
+  description: "个人博客，赛博仓库，谷歌广告认证题库，谷歌广告认证答案，SNS WhatsApp Line or Telegram tips",
   openGraph: {
     title: "赛博莉莉丝 - 记忆宫殿",
-    description: "个人博客，赛博仓库，谷歌广告认证题库，谷歌广告认证答案",
+    description: "个人博客，赛博仓库，谷歌广告认证题库，谷歌广告认证答案，SNS WhatsApp Line or Telegram tips",
   },
 };
 
@@ -43,19 +44,20 @@ export default async function HomePage() {
     <>
       <WebSiteJsonLd />
 
-      {/* Hero Section - 卡片样式 */}
-      <section className="py-12 md:py-20">
-        <FadeIn>
-          <div className="bg-white dark:bg-card rounded-2xl shadow-sm border border-gray-100 dark:border-border px-8 py-16 text-center">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 text-gray-900 dark:text-foreground">
-              探索技术，分享生活
-            </h1>
-            <p className="text-lg md:text-xl text-gray-600 dark:text-muted-foreground max-w-2xl mx-auto">
-              这里记录着我的技术学习历程和生活感悟，希望能给你带来一些启发
-            </p>
-          </div>
-        </FadeIn>
-      </section>
+      {/* Hero Section - 带打字机动画 */}
+      <HeroSection
+        title="赛博莉莉丝"
+        subtitle="记忆宫殿 · 数字花园"
+        typewriterTexts={[
+          "console.log('Hello World');",
+          "const future = await createFuture();",
+          "git commit -m 'Initial commit'",
+          "npm run build",
+          "docker-compose up -d",
+          "SELECT * FROM memories WHERE type = 'digital';",
+          "while(alive) { learn(); create(); share(); }",
+        ]}
+      />
 
       {/* 三栏布局 2-8-2 */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">

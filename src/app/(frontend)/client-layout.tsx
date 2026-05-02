@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import type { HeaderData, FooterData } from "@/lib/payload-local";
+import { cn } from "@/lib/utils";
 
 interface NavCategory {
   id: string;
@@ -13,23 +14,41 @@ interface NavCategory {
   slug: string;
 }
 
-// 导航链接组件 - 带当前页面高亮
-function NavLink({ href, children }: { href: string; children: React.ReactNode }) {
+// 导航链接组件 - 带当前页面高亮和滚动状态
+function NavLink({
+  href,
+  children,
+  isScrolled,
+}: {
+  href: string;
+  children: React.ReactNode;
+  isScrolled: boolean;
+}) {
   const pathname = usePathname();
   const isActive = pathname === href || (pathname.startsWith(href) && href !== "/");
 
   return (
     <Link
       href={href}
-      className={`text-sm font-medium transition-colors relative py-1 ${
-        isActive
-          ? "text-foreground"
-          : "text-muted-foreground hover:text-foreground"
-      }`}
+      className={cn(
+        "text-sm font-medium transition-colors relative py-1",
+        isScrolled
+          ? isActive
+            ? "text-foreground"
+            : "text-muted-foreground hover:text-foreground"
+          : isActive
+            ? "text-foreground"
+            : "text-muted-foreground hover:text-foreground"
+      )}
     >
       {children}
       {isActive && (
-        <span className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary rounded-full" />
+        <span
+          className={cn(
+            "absolute bottom-0 left-0 right-0 h-0.5 rounded-full transition-colors duration-300",
+            isScrolled ? "bg-primary" : "bg-primary"
+          )}
+        />
       )}
     </Link>
   );
@@ -47,6 +66,7 @@ export function ClientLayout({
   footer,
 }: ClientLayoutProps) {
   const [categories, setCategories] = useState<NavCategory[]>([]);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   useEffect(() => {
     async function fetchCategories() {
@@ -63,6 +83,19 @@ export function ClientLayout({
     fetchCategories();
   }, []);
 
+  // 监听滚动事件
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 50);
+    };
+
+    // 初始检查
+    handleScroll();
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   // 使用 CMS 的导航菜单，如果没有则使用默认
   const navItems = header?.navItems?.length
     ? header.navItems
@@ -74,31 +107,41 @@ export function ClientLayout({
 
   return (
     <>
-      <header className="sticky top-4 z-50 w-full px-4 sm:px-6 lg:px-8">
+      <header
+        className={cn(
+          "sticky z-50 w-full px-4 sm:px-6 lg:px-8 transition-all duration-300",
+          isScrolled ? "top-4" : "top-0"
+        )}
+      >
         <div className="container mx-auto">
-          <div className="bg-card rounded-2xl shadow-sm border border-border px-6 h-16 flex items-center justify-between">
-            <Link href="/" className="flex items-center gap-2 text-xl font-bold tracking-tight text-gray-900 dark:text-foreground">
+          <div
+            className={cn(
+              "px-6 h-16 flex items-center justify-between mx-auto",
+              isScrolled
+                ? "bg-card rounded-2xl shadow-sm border border-border w-[1000px] [transition:width_0.3s,background-color_0.3s,border-radius_0.3s,box-shadow_0.3s]"
+                : "bg-transparent rounded-none shadow-none w-full max-w-[1280px] [transition:width_0.3s,background-color_0.3s,border-radius_0.3s,box-shadow_0.3s]"
+            )}
+            style={{
+              border: isScrolled ? undefined : 'none',
+            }}
+          >
+            <Link
+              href="/"
+              className="flex items-center gap-2 text-xl font-bold tracking-tight text-foreground transition-colors duration-300"
+            >
               {/* Logo */}
-              {header?.logo ? (
-                <Image
-                  src={header.logo}
-                  alt={header.siteTitle}
-                  width={32}
-                  height={32}
-                  className="rounded-lg"
-                />
-              ) : (
-                <div className="w-8 h-8 rounded-lg bg-linear-to-br from-blue-500 to-purple-600 flex items-center justify-center text-white">
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
-                  </svg>
-                </div>
-              )}
+              <Image
+                src="/logo.svg"
+                alt={header?.siteTitle || "Cyberlilith"}
+                width={32}
+                height={32}
+                className="rounded-lg"
+              />
               {header?.siteTitle || "Cyberlilith"}
             </Link>
             <nav className="hidden md:flex items-center gap-10">
               {navItems.map((item) => (
-                <NavLink key={item.link} href={item.link}>
+                <NavLink key={item.link} href={item.link} isScrolled={isScrolled}>
                   {item.label}
                 </NavLink>
               ))}

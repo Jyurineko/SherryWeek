@@ -2,8 +2,19 @@ import type { CollectionConfig } from 'payload'
 
 export const Media: CollectionConfig = {
   slug: 'media',
+  labels: {
+    singular: '媒体',
+    plural: '媒体',
+  },
+  admin: {
+    group: '系统管理',
+  },
+  defaultSort: '-createdAt',
   access: {
     read: () => true,
+    create: () => true,
+    update: () => true,
+    delete: () => true,
   },
   fields: [
     {
